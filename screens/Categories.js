@@ -1,16 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, Button, TextInput, Image, ImageBackground, TouchableOpacity } from 'react-native';
-import CategoryListItem from '../components/CategoryListItem'
-import App from '../App';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
 import Back from '../assets/background.jpg';
 
 
-export default function Categories() {
+export default function Categories({navigation}) {
     return (
-        
+
         <View style={styles.container}>
             <ImageBackground source={Back} style={styles.image}>
                 <Text style={styles.textDecorOfHeader}>Đăng nhập</Text>
@@ -31,7 +27,8 @@ export default function Categories() {
                 <TouchableOpacity
                     style={styles.submitButton}
                 >
-                    <Text style={styles.submitButtonText}> Login </Text>
+                    <Text style={styles.submitButtonText} onPress={() => navigation.navigate('Home')}> Login </Text>
+                    
                 </TouchableOpacity>
             </ImageBackground>
 

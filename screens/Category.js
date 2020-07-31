@@ -1,15 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity } from 'react-native';
-import CategoryListItem from '../components/CategoryListItem'
 import Back_2 from '../assets/back-2.jpg';
 import { Searchbar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { abs } from 'react-native-reanimated';
-import { red100 } from 'react-native-paper/lib/typescript/src/styles/colors';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import History from '../screens/tabs/history';
+import myWallet from '../screens/tabs/myWallet';
+
 
 
 export default function Category() {
+  const Tab = createBottomTabNavigator();
   return (
     <View style={styles.container}>
       <ImageBackground source={Back_2} style={styles.image}>
