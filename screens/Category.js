@@ -11,7 +11,7 @@ import myWallet from '../screens/tabs/myWallet';
 
 
 
-export default function Category() {
+export default function Category({navigation}) {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -34,8 +34,8 @@ export default function Category() {
             <Text style={{ top: 60, left: 10, color: '#fff' }}>Add funds</Text>
           </View>
           <View style={{ top: -20, left: 100 }}>
-            <Icon style={{ position: 'absolute', top: 15, left: 30 }} name="qrcode" size={40} color="#fff" />
-            <Text style={{ top: 60, left: 10, color: '#fff' }}>Scan code</Text>
+            <Icon style={{ position: 'absolute', top: 15, left: 30 }} name="qrcode" size={40} color="#fff"  />
+            <Text style={{ top: 60, left: 10, color: '#fff' }} onPress={() => navigation.navigate('BarCodeScanner')}>Scan code</Text>
           </View>
           <View style={{ top: -40, left: 200 }}>
             <Icon style={{ position: 'absolute', top: 15, left: 30 }} name="barcode" size={40} color="#fff" />

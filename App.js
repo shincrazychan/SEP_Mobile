@@ -5,10 +5,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, } from '@react-navigation/stack';
 import CategoriesScreen from '../SmallDeMo/screens/Categories';
 import CategoryScreen from '../SmallDeMo/screens/Category';
-import { createMaterialBottomTabNavigation } from '@react-navigation/material-bottom-tabs';
+import ScanScreen from './screens/ScanScreen';
 import History from '../SmallDeMo/screens/tabs/history';
 import myWallet from '../SmallDeMo/screens/tabs/myWallet';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import Cam from '../SmallDeMo/screens/Cam';
 
 
 // const AppContainer = NavigationContainer(AppNavigator);
@@ -32,6 +33,9 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={CategoriesScreen} ></Stack.Screen>
         <Stack.Screen name="Home" children={homeTab}></Stack.Screen>
+        <Stack.Screen name="BarCodeScanner" component={ScanScreen}></Stack.Screen>
+        <Stack.Screen name="Cam" component={Cam}></Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer>
 
