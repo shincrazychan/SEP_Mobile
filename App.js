@@ -3,13 +3,14 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, } from '@react-navigation/stack';
-import CategoriesScreen from '../SmallDeMo/screens/Categories';
-import CategoryScreen from '../SmallDeMo/screens/Category';
+import CategoriesScreen from './screens/Login';
+import CategoryScreen from './screens/Category';
+import ChangePass from './screens/ChangePass';
 import ScanScreen from './screens/ScanScreen';
 import History from '../SmallDeMo/screens/tabs/history';
 import myWallet from '../SmallDeMo/screens/tabs/myWallet';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Cam from '../SmallDeMo/screens/Cam';
+import { MenuProvider } from 'react-native-popup-menu';
 
 
 // const AppContainer = NavigationContainer(AppNavigator);
@@ -22,10 +23,10 @@ export default function App() {
   const homeTab = () => {
 
 
-    return <Tab.Navigator>
-      <Tab.Screen name="Home" component={CategoryScreen} ></Tab.Screen>
-      <Tab.Screen name="History of transaction" component={History} ></Tab.Screen>
-      <Tab.Screen name="Settings" component={myWallet}></Tab.Screen>
+    return <Tab.Navigator activeColor="black" backgroundColor="white">
+      <Tab.Screen name="HOME" component={CategoryScreen} ></Tab.Screen>
+      <Tab.Screen name="HISTORY OF TRANSACTION" component={History} ></Tab.Screen>
+      <Tab.Screen name="SETTING" component={myWallet}></Tab.Screen>
     </Tab.Navigator>
   }
   return (
@@ -34,15 +35,10 @@ export default function App() {
         <Stack.Screen name="Login" component={CategoriesScreen} ></Stack.Screen>
         <Stack.Screen name="Home" children={homeTab}></Stack.Screen>
         <Stack.Screen name="BarCodeScanner" component={ScanScreen}></Stack.Screen>
-        <Stack.Screen name="Cam" component={Cam}></Stack.Screen>
-
+        <Stack.Screen name="Change password" component={ChangePass}></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
-
-
-
-
-
+  
   );
 }
 

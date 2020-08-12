@@ -4,36 +4,11 @@ import { StyleSheet, Text, View, ScrollView, Button, TextInput, Image, ImageBack
 import Back from '../assets/background.jpg';
 
 
-export default function Categories({navigation}) {
+export default function DetailOfHistory({navigation}) {
     return (
 
         <View style={styles.container}>
-            <ImageBackground source={Back} style={styles.image}>
-                <Text style={styles.textDecorOfHeader}>Đăng nhập</Text>
-                <TextInput style={styles.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Username"
-                    placeholderTextColor="#fff"
-                    autoCapitalize="none"
-
-                ></TextInput>
-                <TextInput style={styles.input}
-                    underlineColorAndroid="transparent"
-                    placeholder="Password"
-                    placeholderTextColor="#fff"
-                    autoCapitalize="none"
-
-                ></TextInput>
-                <TouchableOpacity
-                    style={styles.submitButton}
-                >
-                    <Text style={styles.submitButtonText} onPress={() => navigation.navigate('Home')}> Login </Text>
-                    
-                </TouchableOpacity>
-            </ImageBackground>
-
-
-
+            <Text >This is details text</Text>
         </View>
     );
 }

@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity } from 'react-native';
-
+import HistoryComponent from '../../components/History'
 
 
 
 export default function history() {
   return (
     <View style={styles.container}>
-      <Text>This is my fuking history</Text>
+      <ScrollView>
+        <HistoryComponent ></HistoryComponent>
+        <HistoryComponent></HistoryComponent>
+        <HistoryComponent></HistoryComponent>
+        <HistoryComponent></HistoryComponent>
+        <HistoryComponent></HistoryComponent>
+        <HistoryComponent></HistoryComponent>
+      </ScrollView>
     </View>
   );
 }
