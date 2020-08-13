@@ -15,7 +15,7 @@ export default function ScanScreen() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const newData = data.split('-');
-    alert(`Bar code with type ${type} and data ${newData[0]} has been scanned!`);
+    alert(`Bar code with type ${type}, data 1 : ${newData[0]}, data 2 : ${newData[1]}, data 3 : ${newData[2]}`);
   };
 
   if (hasPermission === null) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image } from 'react-native';
 import Back_2 from '../assets/back-2.jpg';
 import { Searchbar } from 'react-native-paper';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -14,38 +14,38 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import logovl from '../assets/logo.jpg';
 
 
 
 export default function Category({ navigation }) {
-  const Tab = createBottomTabNavigator();
 
   return (
-    <MenuProvider>
+    <MenuProvider >
       <View style={styles.container}>
 
         <ImageBackground source={Back_2} style={styles.image}>
           <View style={styles.topBar}>
-            {/* <Searchbar
-              style={styles.search}
-              placeholder="Search" /> */}
+            <Image
+              style={{ position: "absolute", top: 0, left: 10, width: 240, height: 80 }}
+              source={require('../assets/logo.jpg')}></Image>
             <TouchableOpacity>
               <Menu>
                 <MenuTrigger>
-                  <Icon name="ios-power" size={40} color="#fff" style={{position: 'absolute', left: 20, top: 10}}></Icon>
+                  <Icon name="ios-power" size={50} color="#16A085" style={{ position: 'absolute', right: 80, top: 10 }}></Icon>
                 </MenuTrigger>
                 <MenuOptions>
-                  
-                  <MenuOption onSelect={() => alert(`Delete`)} >
-                    <Icon name='ios-log-out' size={30}></Icon>
-                    <Text style={{ color: 'red', position: 'absolute', fontSize: 20, left: 50, top: 5}} onPress={() => navigation.navigate('Login')} >Logout</Text>
+
+                  <MenuOption style={{ position: "absolute", top: 20, left: 200, width: 150, backgroundColor: '#fff' }}>
+                    <Icon name='ios-log-out' size={25}></Icon>
+                    <Text style={{ color: 'red', position: 'absolute', fontSize: 20, left: 30, top: 7 }} onPress={() => navigation.navigate('Login')} >Logout</Text>
                   </MenuOption>
-                  
+
                 </MenuOptions>
               </Menu>
             </TouchableOpacity>
             <TouchableOpacity>
-              <Icon style={{ position: 'absolute', top: 10, left: 80 }} name="ios-notifications" size={40} color="#fff" />
+              <Icon style={{ position: 'absolute', top: 10, right: 30 }} name="ios-notifications" size={50} color="#16A085" />
             </TouchableOpacity>
           </View>
           <View style={styles.middleBar}>
@@ -128,8 +128,8 @@ const styles = StyleSheet.create({
 
   },
   topBar: {
-    backgroundColor: '#59726F',
-    height: 70,
+    backgroundColor: '#E5E8E8',
+    height: 80,
 
   },
   topBarButton: {
@@ -139,17 +139,23 @@ const styles = StyleSheet.create({
     top: 15
   },
   middleBar: {
-    top: 80,
+    top: 100,
     width: '95%',
     height: '15%',
     marginLeft: '2.5%',
     paddingLeft: 30,
     backgroundColor: 'gray',
     opacity: 0.6,
-    position: 'absolute'
+    position: 'absolute',
   },
   accountBalance: {
     top: 120
-  }
+  },
+  stretch: {
+    width: 50,
+    height: 200,
+    resizeMode: 'stretch',
+  },
 
 });
+
