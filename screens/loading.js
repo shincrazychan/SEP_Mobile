@@ -8,10 +8,11 @@ export default class Loading extends React.Component {
         })
     }
     
+    
     render() {
         return (
             <View style={styles.container}>
-                <Text>Loading</Text>
+                <Text>Plz wait a few seconds</Text>
                 <ActivityIndicator size="large" />
             </View>
         )

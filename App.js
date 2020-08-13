@@ -11,7 +11,7 @@ import History from '../SmallDeMo/screens/tabs/history';
 import myWallet from '../SmallDeMo/screens/tabs/myWallet';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MenuProvider } from 'react-native-popup-menu';
-import Icon from "react-native-vector-icons/Ionicons";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import loading from '../SmallDeMo/screens/loading';
 import firebase from 'firebase';
 
@@ -40,8 +40,34 @@ export default function App() {
   const homeTab = () => {
 
 
-    return <Tab.Navigator activeColor="#212F3D">
-      <Tab.Screen name="HOME" component={CategoryScreen} >
+    return <Tab.Navigator 
+    activeColor="#fff"
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'HOME') {
+          iconName = focused
+            ? 'ios-home'
+            : 'ios-home';
+        } else if (route.name === 'HISTORY OF TRANSACTION') {
+          iconName = focused ? 'ios-list' : 'ios-list';
+        } else if (route.name === 'SETTING') {
+          iconName = focused ? 'ios-settings' : 'ios-settings';
+        }
+        
+
+        // You can return any component that you like here!
+        return <Ionicons name={iconName} size={20} color={'#fff'} />;
+      },
+    })}
+    tabBarOptions={{
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+    }}
+    >
+      <Tab.Screen 
+      name="HOME" component={CategoryScreen} >
       </Tab.Screen>
       <Tab.Screen name="HISTORY OF TRANSACTION" component={History} ></Tab.Screen>
       <Tab.Screen name="SETTING" component={myWallet}></Tab.Screen>
@@ -49,8 +75,11 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Loading" component={loading} ></Stack.Screen>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen 
+        name="Loading" 
+        component={loading} 
+        ></Stack.Screen>
 
         <Stack.Screen name="Login" component={CategoriesScreen} ></Stack.Screen>
         <Stack.Screen name="Home" children={homeTab}></Stack.Screen>

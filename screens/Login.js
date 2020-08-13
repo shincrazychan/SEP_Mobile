@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Button, TextInput, Image, ImageBackground, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button, TextInput, Image, ImageBackground, TouchableOpacity, LayoutAnimation } from 'react-native';
 
 import Back from '../assets/background.jpg';
 import * as firebase from 'firebase';
 
 export default class Login extends React.Component {
+    
     state = {
         email: "",
         password: "",
@@ -15,9 +16,15 @@ export default class Login extends React.Component {
         firebase.auth().signInWithEmailAndPassword(email, password).catch(error => this.setState({ errorMessage: error.message }))
     };
 
-    render() {
-        return (
+    // top bar setting
+    static navigationOptions = {
+        header: null
+    }
 
+    render() {
+        LayoutAnimation.easeInEaseOut();
+
+        return (
             <View style={styles.container}>
                 <ImageBackground source={Back} style={styles.image}>
 
@@ -42,6 +49,7 @@ export default class Login extends React.Component {
                         value={this.state.email}
                     ></TextInput>
                     <TextInput style={styles.input}
+                        secureTextEntry
                         underlineColorAndroid="transparent"
                         placeholder="Password"
                         placeholderTextColor="#fff"
