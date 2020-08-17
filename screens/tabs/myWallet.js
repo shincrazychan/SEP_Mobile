@@ -1,45 +1,89 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, TextInput, FlatList, SnapshotViewIOS } from 'react-native';
 
 import Icon from "react-native-vector-icons/Ionicons";
 import Catcry from '../../assets/cat.jpg';
 import { render } from 'react-dom';
 import * as firebase from 'firebase'
+import { color } from 'react-native-reanimated';
+
 
 export default class myWallet extends React.Component {
 
-  // st
-  state = {
-    email: "",
-    displayName: "",
 
+  constructor(props) {
+    super();
+    this.state = {
+      email: "",
+      displayName: "",
+      uid: "",
+      testData: [],
+      data1: [],
+    }
   }
+  // st
+
+
 
   // connect to firebase
-  componentDidMount() {
-    const { email, displayName } = firebase.auth().currentUser;
-    this.setState({ email, displayName });
+  async componentDidMount() {
+    const { email, displayName, uid } = firebase.auth().currentUser;
+    // testing
+    this.setState({ email, displayName, uid });
+    await firebase.firestore().doc(`students/T150950/`).get()
+      .then((data) => {
+        this.setState({
+          data1: data.data()
+        })
+      });
+    const temp = this.state.data1.wallet
+    const soDu = temp.soDu
+    this.setState({
+      testData: soDu
+    })
+    console.log(temp.soDu);
+
   }
 
+
+
   // logout function 
-  signOutUser(){
+  signOutUser() {
     firebase.auth().signOut();
   }
+
+  // _renderObject(){
+  // 	return Object.entries(this.state.data1).map(([key, value], i) => {
+  // 		return (
+  // 			<View key={key}>
+  // 				id is: {value.cmnd} ;
+  // 				name is: {value.tenSV}
+  // 			</View>
+  // 		)
+  // 	})
+  // }
+ 
+
 
   render() {
     return (
       <View style={{ width: 350, height: 600, backgroundColor: '#E5E7E9', marginLeft: 12, marginTop: 20 }}>
         {/* left icon */}
+
+
+
+
         <View style={{ position: "absolute", width: 50, height: 60, top: 20, left: 20 }}>
           <Icon name='md-people' color='#F1948A' size='60' ></Icon>
         </View>
         {/* content of history */}
         <View style={{ position: "absolute", width: 260, height: 40, left: 100, top: 5 }}>
-          <Text style={{ fontSize: 20, marginTop: 5, textTransform: 'uppercase', }} >nguyen tan huy</Text>
+
+          <Text style={{ fontSize: 20, marginTop: 5, textTransform: 'uppercase', }}> {this.state.data1.tenSv}</Text>
         </View>
         <View style={{ position: "absolute", width: 150, height: 30, right: 50, top: 35 }}>
           <Icon style={{ color: '#F1C40F', position: 'absolute', left: -40 }} name='ios-medal' size='25'></Icon>
-          <Text style={{ position: "absolute", fontSize: 13, marginTop: 5, right: 70 }}>Gold member</Text>
+          <Text style={{ position: "absolute", fontSize: 13, marginTop: 5, right: 70 }}><Text></Text></Text>
         </View>
         <View style={{ position: "absolute", width: 250, height: 30, right: 10, top: 60 }}>
           <Text style={{ position: "absolute", fontSize: 13, marginTop: 5, right: 20 }}>Studen of Van Lang University</Text>
@@ -48,7 +92,7 @@ export default class myWallet extends React.Component {
           <Text style={{ left: 10, opacity: 0.4 }}>Your account balance : </Text>
         </View>
         <View style={{ top: 90, left: 200 }}>
-          <Text style={{ fontSize: 25, fontWeight: '100' }}>1.000.000</Text>
+          <Text style={{ fontSize: 25, fontWeight: '100' }}>{this.state.testData}</Text>
         </View>
         {/* content of setting user */}
         <ScrollView>
@@ -56,25 +100,25 @@ export default class myWallet extends React.Component {
             <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Fullname :</Text>
             <TextInput style={{ width: 200, height: 40, position: "absolute", left: 100, top: 0 }} underlineColorAndroid="transparent"
               placeholderTextColor="black"
-              autoCapitalize="none">Nguyen Tan Huy</TextInput>
+              autoCapitalize="none">{this.state.data1.tenSv}</TextInput>
           </View>
           <View style={styles.accountBalance}>
-            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Birthday :</Text>
+            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Faculty :</Text>
             <TextInput style={{ width: 200, height: 40, position: "absolute", left: 100, top: 0 }} underlineColorAndroid="transparent"
               placeholderTextColor="black"
-              autoCapitalize="none">07/09/1997</TextInput>
+              autoCapitalize="none" >{this.state.data1.khoa}</TextInput>
           </View>
           <View style={styles.accountBalance}>
-            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Phone number :</Text>
-            <TextInput style={{ width: 200, height: 40, position: "absolute", left: 140, top: 0 }} underlineColorAndroid="transparent"
-              placeholderTextColor="black"
-              autoCapitalize="none">034800****</TextInput>
-          </View>
-          <View style={styles.accountBalance}>
-            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Address :</Text>
+            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Class :</Text>
             <TextInput style={{ width: 200, height: 40, position: "absolute", left: 100, top: 0 }} underlineColorAndroid="transparent"
               placeholderTextColor="black"
-              autoCapitalize="none">NewYork city</TextInput>
+              autoCapitalize="none">{this.state.data1.lop}</TextInput>
+          </View>
+          <View style={styles.accountBalance}>
+            <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Student code :</Text>
+            <TextInput style={{ width: 200, height: 40, position: "absolute", left: 130, top: 0 }} underlineColorAndroid="transparent"
+              placeholderTextColor="black"
+              autoCapitalize="none">{this.state.data1.maSv}</TextInput>
           </View>
           <View style={styles.accountBalance}>
             <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Email :</Text>
@@ -86,8 +130,8 @@ export default class myWallet extends React.Component {
             <Text style={{ top: 10, left: 10, opacity: 0.4, borderBottomWidth: 1 }}>Password :</Text>
             <Text style={{ width: 200, height: 40, position: "absolute", left: 100, top: 10 }} underlineColorAndroid="transparent"
               placeholderTextColor="black"
-              autoCapitalize="none" onPress={() =>this.props.navigation.navigate('Change password')}> ******</Text>
-            <Icon style={{ position: 'absolute', right: 10 }} name='ios-arrow-forward' size='25' onPress={() =>this.props.navigation.navigate('Change password')}></Icon>
+              autoCapitalize="none" onPress={() => this.props.navigation.navigate('Change password')}> ******</Text>
+            <Icon style={{ position: 'absolute', right: 10 }} name='ios-arrow-forward' size='25' onPress={() => this.props.navigation.navigate('Change password')}></Icon>
           </View>
           {/* <Text style={styles.submitButton} onPress={() => navigation.navigate('Login')}> Change info </Text> */}
 

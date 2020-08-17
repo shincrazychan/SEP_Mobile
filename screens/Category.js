@@ -21,19 +21,37 @@ import * as firebase from 'firebase';
 
 export default class Category extends React.Component {
   // pm
-  state = {
-    email : "",
-    displayName: ""
+  constructor(props) {
+    super();
+    this.state = {
+      email: "",
+      displayName: "",
+      uid: "",
+      testData: [],
+      data1: [],
+    }
   }
 
   // function connet to firebase and get current user
-  componentDidMount() {
-    const { email, displayName } = firebase.auth().currentUser;
-    this.setState({ email, displayName });
+  async componentDidMount() {
+    const { email, displayName, uid } = firebase.auth().currentUser;
+    // testing
+    this.setState({ email, displayName, uid });
+    await firebase.firestore().doc(`students/T150950/`).get()
+      .then((data) => {
+        this.setState({
+          data1: data.data()
+        })
+      });
+    const temp = this.state.data1.wallet
+    const soDu = temp.soDu
+    this.setState({
+      testData: soDu
+    })
+    console.log(temp.soDu);
   }
-
   // logout
-  logOutUser(){
+  logOutUser() {
     firebase.auth().signOut();
   }
 
@@ -41,7 +59,6 @@ export default class Category extends React.Component {
 
   render() {
     LayoutAnimation.easeInEaseOut();
-
     return (
       <MenuProvider >
         <View style={styles.container}>
@@ -76,7 +93,7 @@ export default class Category extends React.Component {
                 <Text style={{ top: 60, left: 10, color: '#fff' }}>Add funds</Text>
               </View>
               <View style={{ top: -20, left: 100 }}>
-                <Icon style={{ position: 'absolute', top: 15, left: 30 }} name="ios-qr-scanner" size={40} color="#fff" onPress={() =>this.props.navigation.navigate('BarCodeScanner')} />
+                <Icon style={{ position: 'absolute', top: 15, left: 30 }} name="ios-qr-scanner" size={40} color="#fff" onPress={() => this.props.navigation.navigate('BarCodeScanner')} />
                 <Text style={{ top: 60, left: 10, color: '#fff' }} onPress={() => this.props.navigation.navigate('BarCodeScanner')}>Scan code</Text>
               </View>
               <View style={{ top: -40, left: 200 }}>
@@ -91,7 +108,7 @@ export default class Category extends React.Component {
               <Text style={{ left: 10, opacity: 0.4 }}>Your account balance : </Text>
             </View>
             <View style={{ top: 90, left: 200 }}>
-              <Text style={{ fontSize: 25, fontWeight: '100', fontStyle: 'italic' }}>1.000.000</Text>
+              <Text style={{ fontSize: 25, fontWeight: '100', fontStyle: 'italic' }}>{this.state.testData}</Text>
             </View>
 
             {/* các dịch vụ khác */}
