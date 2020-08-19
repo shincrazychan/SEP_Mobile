@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, LayoutAnimation } from 'react-native';
 import Back_2 from '../assets/back-2.jpg';
-import { Searchbar } from 'react-native-paper';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
 import Icon from "react-native-vector-icons/Ionicons";
-import History from './tabs/history';
-import myWallet from './tabs/myWallet';
 import { MenuProvider } from 'react-native-popup-menu';
 import {
   Menu,
@@ -27,28 +22,45 @@ export default class Category extends React.Component {
       email: "",
       displayName: "",
       uid: "",
+      studentId: "",
       testData: [],
       data1: [],
+      updateData: [],
     }
   }
 
   // function connet to firebase and get current user
   async componentDidMount() {
-    const { email, displayName, uid } = firebase.auth().currentUser;
-    // testing
-    this.setState({ email, displayName, uid });
+    const { email, displayName, uid, studentId } = firebase.auth().currentUser;
+    // get info account throught authentication
+    this.setState({ email, displayName, uid, studentId });
+    console.log("this is studentId : " + studentId);
+
+    
+
+
+    // get all data of student tab
     await firebase.firestore().doc(`students/T150950/`).get()
       .then((data) => {
         this.setState({
           data1: data.data()
         })
       });
+
+    console.log("this is uid from student " + this.state.data1.accountId);
+    console.log(this.state.updateData);
     const temp = this.state.data1.wallet
     const soDu = temp.soDu
+    console.log(soDu);
     this.setState({
       testData: soDu
     })
-    console.log(temp.soDu);
+
+    
+
+    // await firebase.firestore().doc(`students/T150950`).update({
+    //   'wallet.soDu': 88888
+    // })
   }
   // logout
   logOutUser() {

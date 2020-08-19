@@ -13,6 +13,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MenuProvider } from 'react-native-popup-menu';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import loading from '../SmallDeMo/screens/loading';
+import TransactionScreen from "./screens/Transaction";
 import firebase from 'firebase';
 
 var firebaseConfig = {
@@ -85,6 +86,8 @@ export default function App() {
         <Stack.Screen name="Home" children={homeTab}></Stack.Screen>
         <Stack.Screen name="BarCodeScanner" component={ScanScreen}></Stack.Screen>
         <Stack.Screen name="Change password" component={ChangePass}></Stack.Screen>
+        <Stack.Screen name="Transaction" component={TransactionScreen}></Stack.Screen>
+
       </Stack.Navigator>
     </NavigationContainer>
 

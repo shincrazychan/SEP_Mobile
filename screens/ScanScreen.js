@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as firebase from 'firebase';
 
-export default function ScanScreen() {
+export default function ScanScreen({navigation}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [transactionProps, setTransactionProps] = useState();
+
+   
 
   useEffect(() => {
     (async () => {
@@ -15,7 +19,20 @@ export default function ScanScreen() {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     const newData = data.split('-');
-    alert(`Bar code with type ${type}, data 1 : ${newData[0]}, data 2 : ${newData[1]}, data 3 : ${newData[2]}`);
+    console.log("qr result : "+newData[0]);
+    navigation.navigate('Transaction', {hotkey : newData[0]});
+    // firebase.firestore().doc(`bills/${newData[0]}`).get().then((data) => {
+    //   setTransactionProps(transactionProps.data());
+    // });
+    // console.log("kokokok"+transactionProps);
+
+    // alert(`Bar code with type ${type}, data 1 : ${newData[0]}`);
+
+
+    // paying
+    // firebase.firestore().doc(`students/T150950`).update({
+    //   'wallet.soDu': 45454545
+    // })
   };
 
   if (hasPermission === null) {
