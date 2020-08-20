@@ -19,18 +19,27 @@ export default class myWallet extends React.Component {
       uid: "",
       testData: [],
       data1: [],
+      dataOfAccount: []
     }
   }
   // st
 
-
-
+  
+  
   // connect to firebase
   async componentDidMount() {
     const { email, displayName, uid } = firebase.auth().currentUser;
+
+    await firebase.firestore().doc(`accounts/${email}`).get()
+      .then((data) => {
+        this.setState({
+          dataOfAccount: data.data()
+        })
+      });
+    const tempMSSV = this.state.dataOfAccount.maSv;
     // testing
     this.setState({ email, displayName, uid });
-    await firebase.firestore().doc(`students/T150950/`).get()
+    await firebase.firestore().doc(`students/${tempMSSV}/`).get()
       .then((data) => {
         this.setState({
           data1: data.data()

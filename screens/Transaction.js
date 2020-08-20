@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, LayoutAnimation } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, LayoutAnimation, Alert } from 'react-native';
 import Back_2 from '../assets/back-2.jpg';
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -16,7 +16,11 @@ export default class Transaction extends React.Component {
             displayName: "",
             uid: "",
             qr: props.route.params.hotkey,
-            dataOfBill: []
+            dataOfBill: [],
+            testData: [],
+            data1: [],
+            dataOfAccount: [],
+
         }
 
 
@@ -27,27 +31,54 @@ export default class Transaction extends React.Component {
         const { email, displayName, uid, studentId } = firebase.auth().currentUser;
         // get info account throught authentication
         this.setState({ email, displayName, uid, studentId });
-        console.log("this is qr code : "+ this.state.qr);
-
-
-
-        // get all data of student tab
-        // console.log("qr code : "+this.state.qr);
+        console.log("this is qr code : " + this.state.qr);
         await firebase.firestore().doc(`bills/${this.state.qr}`).get()
             .then((data) => {
                 this.setState({
                     dataOfBill: data.data()
                 })
             });
-        console.log("this is data of bill "+this.state.dataOfBill.soTien);
+        console.log("this is data of bill " + this.state.dataOfBill.soTien);
 
+        // get balance of user
+        await firebase.firestore().doc(`accounts/${email}`).get()
+            .then((data) => {
+                this.setState({
+                    dataOfAccount: data.data()
+                })
+            });
+        const tempMSSV = this.state.dataOfAccount.maSv;
+
+
+
+        // get all data of student tab
+        await firebase.firestore().doc(`students/${tempMSSV}`).get()
+            .then((data) => {
+                this.setState({
+                    data1: data.data()
+                })
+            });
+
+        const temp = this.state.data1.wallet
+        const soDu = temp.soDu
+        console.log("this is So Du = " + soDu);
+        this.setState({
+            testData: soDu
+        })
+        console.log(this.state.testData - this.state.dataOfBill.soTien);
+        if (this.state.testData - this.state.dataOfBill.soTien >= 0) {
+            Alert.alert("Bill Id :" + this.state.dataOfBill.maDh, "Your account will be deducted : " + this.state.dataOfBill.soTien)
+            firebase.firestore().doc(`students/${tempMSSV}`).update({
+                'wallet.soDu': this.state.testData - this.state.dataOfBill.soTien
+            })
+            setTimeout(() =>{
+                this.props.navigation.navigate('Home')
+            }, 3000);
+        }
+        else {
+            Alert.alert("Warning !!!", "Your account not have enough balance, plz check again !")
+        }
     }
-    // logout
-    logOutUser() {
-        firebase.auth().signOut();
-    }
-
-
 
     render() {
         LayoutAnimation.easeInEaseOut();
@@ -56,7 +87,7 @@ export default class Transaction extends React.Component {
             <View style={styles.container}>
                 <Button title="Go back" onPress={() => navigation.goBack()} />
                 <Text>
-                When paying this bill, your account will be deducted {this.state.dataOfBill.soTien} vnd
+                    comming soon !
                 </Text>
             </View>
         );

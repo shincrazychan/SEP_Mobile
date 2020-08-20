@@ -17,46 +17,60 @@ import * as firebase from 'firebase';
 export default class Category extends React.Component {
   // pm
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       email: "",
       displayName: "",
       uid: "",
-      studentId: "",
+      maSv: "",
       testData: [],
       data1: [],
       updateData: [],
+      dataOfAccount: [],
     }
+    this.refreshScreen = this.refreshScreen.bind();
+
   }
+
+  refreshScreen() {
+    this.setState({ testData})
+}
 
   // function connet to firebase and get current user
   async componentDidMount() {
-    const { email, displayName, uid, studentId } = firebase.auth().currentUser;
+    const { email, displayName, uid, maSv } = firebase.auth().currentUser;
     // get info account throught authentication
-    this.setState({ email, displayName, uid, studentId });
-    console.log("this is studentId : " + studentId);
+    this.setState({ email, displayName, uid, maSv });
 
-    
+    // 
+    await firebase.firestore().doc(`accounts/${email}`).get()
+      .then((data) => {
+        this.setState({
+          dataOfAccount: data.data()
+        })
+      });
+    const tempMSSV = this.state.dataOfAccount.maSv;
+
 
 
     // get all data of student tab
-    await firebase.firestore().doc(`students/T150950/`).get()
+    await firebase.firestore().doc(`students/${tempMSSV}`).get()
       .then((data) => {
         this.setState({
           data1: data.data()
         })
       });
 
-    console.log("this is uid from student " + this.state.data1.accountId);
-    console.log(this.state.updateData);
     const temp = this.state.data1.wallet
     const soDu = temp.soDu
-    console.log(soDu);
+    
     this.setState({
       testData: soDu
     })
-
+    console.log(soDu);
     
+
+
 
     // await firebase.firestore().doc(`students/T150950`).update({
     //   'wallet.soDu': 88888
