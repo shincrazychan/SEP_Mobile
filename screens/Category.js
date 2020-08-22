@@ -23,24 +23,21 @@ export default class Category extends React.Component {
       displayName: "",
       uid: "",
       maSv: "",
-      testData: [],
+      testData: "",
       data1: [],
       updateData: [],
       dataOfAccount: [],
     }
-    this.refreshScreen = this.refreshScreen.bind();
 
   }
 
-  refreshScreen() {
-    this.setState({ testData})
-}
+
 
   // function connet to firebase and get current user
   async componentDidMount() {
-    const { email, displayName, uid, maSv } = firebase.auth().currentUser;
+    const { email, displayName, uid } = firebase.auth().currentUser;
     // get info account throught authentication
-    this.setState({ email, displayName, uid, maSv });
+    this.setState({ email, displayName, uid });
 
     // 
     await firebase.firestore().doc(`accounts/${email}`).get()
@@ -50,8 +47,7 @@ export default class Category extends React.Component {
         })
       });
     const tempMSSV = this.state.dataOfAccount.maSv;
-
-
+    console.log(this.state.dataOfAccount);
 
     // get all data of student tab
     await firebase.firestore().doc(`students/${tempMSSV}`).get()
@@ -63,12 +59,13 @@ export default class Category extends React.Component {
 
     const temp = this.state.data1.wallet
     const soDu = temp.soDu
-    
-    this.setState({
-      testData: soDu
-    })
-    console.log(soDu);
-    
+
+
+    this.setState({ testData: soDu })
+
+
+    console.log("so du " + soDu);
+    console.log("Test data " + this.state.testData);
 
 
 

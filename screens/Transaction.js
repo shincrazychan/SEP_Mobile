@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, ImageBackground, Button, TouchableOpacity, Image, LayoutAnimation, Alert } from 'react-native';
 import Back_2 from '../assets/back-2.jpg';
 import Icon from "react-native-vector-icons/Ionicons";
+import moment from 'moment';
+
 
 import * as firebase from 'firebase';
 
@@ -20,6 +22,7 @@ export default class Transaction extends React.Component {
             testData: [],
             data1: [],
             dataOfAccount: [],
+            time: ""
 
         }
 
@@ -71,13 +74,31 @@ export default class Transaction extends React.Component {
             firebase.firestore().doc(`students/${tempMSSV}`).update({
                 'wallet.soDu': this.state.testData - this.state.dataOfBill.soTien
             })
-            setTimeout(() =>{
-                this.props.navigation.navigate('Home')
+            //Getting the current date-time with required format and UTC   
+            var date = moment()
+                .utcOffset('+07:00')
+                .format(' hh:mm:ss a');
+
+            this.setState({ time: date });
+            //Settign up time to show
+            // adding a record on history when transaction is complete
+            firebase.firestore().doc(`students/${tempMSSV}/`).update({
+                'wallet.history': {
+                    'thoiGian': this.state.time,
+                    'soTien': this.state.dataOfBill.soTien
+                }
+            })
+            setTimeout(() => {
+                this.props.navigation.navigate('Home', { 'tien': this.state.testData - this.state.dataOfBill.soTien })
             }, 3000);
         }
         else {
-            Alert.alert("Warning !!!", "Your account not have enough balance, plz check again !")
+            Alert.alert("Warning !!!", "Your account not have enough money, plz check again !")
         }
+
+
+
+
     }
 
     render() {
